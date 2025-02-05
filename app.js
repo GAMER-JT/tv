@@ -142,37 +142,13 @@ class TVApp {
     }
   }
 
-  addNewChannel() {
-    const name = document.getElementById('channelName').value;
-    const category = document.getElementById('channelCategory').value;
-    const streamUrl = this.encryptUrl(document.getElementById('channelUrl').value);
-    const logo = document.getElementById('channelLogo').value;
-
-    const newChannel = {
-      id: this.channels.length + 1,
-      name,
-      category,
-      streamUrl,
-      logo
-    };
-
-    this.channels.push(newChannel);
-    
-    // Save updated channels to localStorage
-    localStorage.setItem('customChannels', JSON.stringify(this.channels));
-    
-    this.updateCategories();
-    this.renderChannels();
-    this.addChannelModal.style.display = 'none';
-    document.getElementById('addChannelForm').reset();
-  }
-
   async loadChannels() {
     const savedChannels = localStorage.getItem('customChannels');
     if (savedChannels) {
-      this.channels = JSON.parse(savedChannels).map(channel => ({
+      this.channels = JSON.parse(savedChannels);
+      this.channels = this.channels.map(channel => ({
         ...channel,
-        streamUrl: this.encryptUrl(channel.streamUrl)
+        streamUrl: this.encryptUrl(channel.streamUrl || channel.url)
       }));
     } else {
       this.channels = [
@@ -227,10 +203,38 @@ class TVApp {
           streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=4211"),
           logo: "https://img.static-ottera.com/prod/tg/linear_channel/thumbnails/widescreen/k0UC6i-MUyyL25pRw2uuulUiBw1AluUVJQhZ65VxwjA.jpg?text=Pitufo tv" }
       ];
+      this.saveChannels();
     }
 
     this.updateCategories();
     this.renderChannels();
+  }
+
+  addNewChannel() {
+    const name = document.getElementById('channelName').value;
+    const category = document.getElementById('channelCategory').value;
+    const streamUrl = this.encryptUrl(document.getElementById('channelUrl').value);
+    const logo = document.getElementById('channelLogo').value;
+
+    const newChannel = {
+      id: Date.now(),
+      name,
+      category,
+      streamUrl,
+      logo
+    };
+
+    this.channels.push(newChannel);
+    this.saveChannels();
+    
+    this.updateCategories();
+    this.renderChannels();
+    this.addChannelModal.style.display = 'none';
+    document.getElementById('addChannelForm').reset();
+  }
+
+  saveChannels() {
+    localStorage.setItem('customChannels', JSON.stringify(this.channels));
   }
 
   updateCategories() {
