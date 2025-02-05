@@ -1,0 +1,96 @@
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TV en Vivo</title>
+  <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar canal...">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="header-icons">
+        <button id="addChannel" class="icon-button" style="display: none;" title="Agregar Canal">
+          <i class="fas fa-plus"></i>
+        </button>
+        <button id="darkMode" class="icon-button" title="Modo Oscuro">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="favorites" class="icon-button" title="Favoritos">
+          <i class="fas fa-heart"></i>
+        </button>
+        <button id="deviceInfo" class="icon-button" style="display: none;" title="Información del Dispositivo">
+          <i class="fas fa-mobile-alt"></i>
+        </button>
+      </div>
+    </header>
+
+    <div id="deviceInfoModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Información del Dispositivo</h2>
+        <div id="deviceDetails"></div>
+      </div>
+    </div>
+
+    <div id="addChannelModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Agregar Nuevo Canal</h2>
+        <form id="addChannelForm">
+          <input type="text" id="channelName" placeholder="Nombre del Canal" required>
+          <input type="text" id="channelCategory" placeholder="Categoría" required>
+          <input type="url" id="channelUrl" placeholder="URL del Stream" required>
+          <input type="url" id="channelLogo" placeholder="URL del Logo" required>
+          <button type="submit">Agregar Canal</button>
+        </form>
+      </div>
+    </div>
+
+    <main>
+      <div class="player-container">
+        <video
+          id="tvPlayer"
+          class="video-js vjs-default-skin"
+          controls
+          preload="auto"
+          width="640"
+          height="360"
+        >
+          <p class="vjs-no-js">
+            Para ver este video, por favor habilita JavaScript
+          </p>
+        </video>
+      </div>
+
+      <div class="categories" id="categories">
+        <button class="category active" data-category="todos">Todos</button>
+      </div>
+
+      <div class="channels-container" id="channelsList">
+        <!-- Los canales se cargarán dinámicamente -->
+      </div>
+    </main>
+  </div>
+
+  <div class="favorites-sidebar" id="favoritesSidebar">
+    <div class="favorites-header">
+      <h2 class="favorites-title">Mis Canales Favoritos</h2>
+      <button class="close-favorites" id="closeFavorites">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="favoritesList">
+      <!-- Favorite channels will be loaded dynamically -->
+    </div>
+  </div>
+
+  <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
