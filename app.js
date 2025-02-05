@@ -192,7 +192,7 @@ class TVApp {
 
           /* Salvador */
           { id: 9, name: "Megavision", category: "Salvador", 
-            streamUrl: this.encryptUrl("https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8"),
+            streamUrl: this.encryptUrl("https://mgv-channel21.akamaized.net/hls/live/2093191/MGV_CHANNEL21/0/streamPlaylist.m3u8"),
             logo: "https://megavision.univtec.com/_next/image?url=https%3A%2F%2Fkki5auiqw9.execute-api.us-east-1.amazonaws.com%2Fstg%2Fresize%3Furl%3Dhttps%3A%2F%2Ffrankly-vod.akamaized.net%2Fmegavision%2Fuploaded%2F754bd760-78d6-48db-90ad-88b97e502ed8.jpeg&w=3840&q=90?text=Salvador" },
 
           /* Infantil */
@@ -207,7 +207,64 @@ class TVApp {
             logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLUl7LYl757mci89pjoose7C2Yq-Jnuwok-g&s?text=Toon en Español" },
           { id: 33, name: "Pitufo tv", category: "Infantil", 
             streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=4211"),
-            logo: "https://img.static-ottera.com/prod/tg/linear_channel/thumbnails/widescreen/k0UC6i-MUyyL25pRw2uuulUiBw1AluUVJQhZ65VxwjA.jpg?text=Pitufo tv" }
+            logo: "https://img.static-ottera.com/prod/tg/linear_channel/thumbnails/widescreen/k0UC6i-MUyyL25pRw2uuulUiBw1AluUVJQhZ65VxwjA.jpg?text=Pitufo tv" },
+           /* Ecuador */
+          { id: 1, name: "ABN", category: "Colombia", 
+            streamUrl: this.encryptUrl("https://s2.abntelevision.com/avivamientoabr/stream/avivamientohd/avivamientohd/chunks.m3u8?nimblesessionid=102448758"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBhOBCXIE8Y3cAfDazLSFUbnw0BMPfy49FyQ&s?text=Ecuador" },
+
+          { id: 2, name: "Telepacífico", category: "Colombia", 
+            streamUrl: this.encryptUrl("https://live-edge-bhs-1.cdn.enetres.net/6E5C615AA5FF4123ACAF0DAB57B7B8DC021/live-telepacifico/index.m3u8"),
+            logo: "https://www.elespectador.com/resizer/v2/KLUEITR5YFF7HFWXJAVMLGKLX4.jpg?auth=c0954d8bc9af95a12cb5a8b7e5dc7920c137dc3814e418e22c51b2c8751c2bcf&width=920&height=613&smart=true&quality=60?text=Ecuador" },
+
+          { id: 3, name: "Toonz Kids", category: "Infantil", 
+            streamUrl: this.encryptUrl("https://d35j504z0x2vu2.cloudfront.net/v1/manifest/0bc8e8376bd8417a1b6761138aa41c26c7309312/toonzkids-spanish/43770034-cfe9-4b6c-9b0a-cd3748021925/1.m3u8"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo35pibfmc9OZqaLwJS15BeLVrQgL2UI43g9IW5h8quseYudGsS5TvYl5xVDzy3AbsF0I&usqp=CAU?text=Ecuador" },
+
+          /* Peru */
+          { id: 4, name: "El Pinguino", category: "Chile", 
+            streamUrl: this.encryptUrl("https://jireh-4-hls-video-us-isp.dps.live/hls-video/339f69c6122f6d8f4574732c235f09b7683e31a5/pinguinotv/pinguinotv.smil/pinguinotv/livestream2/chunks.m3u8?dpssid=b224464994267a35eaec4d43&sid=ba5t1l1xb2178958716867a35eaec4d41&ndvc=1"),
+            logo: "https://i.ytimg.com/vi/hJAB7O4R4Rc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCfV7FteDJcT7Q97jvsPkOUHRcG7w?text=Peru" },
+
+          /* Venezuela */
+          { id: 5, name: "LaRed", category: "Chile", 
+            streamUrl: this.encryptUrl("https://alba-cl-lared-lared.stream.mediatiquestream.com/live2/alba-cl-lared-lared_480p/chunks.m3u8"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJBP6uFOCoOwwHTX6l5TxD_1eLqLk3MXITtg&s?text=Venevision" },
+
+          /* Noticias */
+          { id: 6, name: "Teletrack", category: "Chile", 
+            streamUrl: this.encryptUrl("https://teletraktv.janus.cl/playlist/stream.m3u8?s=lq&t=1699756660&id=louvd0p9&q=2&d=w"),
+            logo: "https://i.ytimg.com/vi/GIsfu0ORsXA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAktNIrqZlhji26zkUJ6xSlnLREUg?text=Noticias" },
+
+          { id: 7, name: "Canal 13 Tele Series", category: "Chile", 
+            streamUrl: this.encryptUrl("https://ztnr.rtve.es/ztnr/1694255.m3u8"),
+            logo: "https://www.5900.tv/wp-content/uploads/2020/02/tele-13-chile-en-vivo.jpg?text=Noticias" },
+
+          { id: 8, name: "Deportes13 TV", category: "Chile", 
+            streamUrl: this.encryptUrl("https://dai.google.com/linear/hls/pa/event/uFiYkh4CQPCPgbs7WPKhXw/stream/a3c13d14-6c14-4c3f-8ede-849389bf31e4:CHS/variant/d0472ea34665d38a12b63b486af4c283/bandwidth/2045193.m3u8"),
+            logo: "https://s.t13.cl/sites/default/files/styles/manualcrop_850x475/public/t13/field-imagen/2023-05/whatsapp_image_2023-05-19_at_11.24.45.jpeg?itok=q-iMMPw5?text=Noticias" },
+
+          /* Salvador */
+          { id: 9, name: "Canal Doce Misiones", category: "Argentina", 
+            streamUrl: this.encryptUrl("https://g1.vxral-hor.transport.edge-access.net/a14/ngrp:c12_live01-100129_all/c12_live01-100129_540p.m3u8"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQobxlRaOLURmmu2O05p1NfHYGGod7vhhRcTa6MTFWFdiPP_N8EElSTxjMY5hQHyedHS5E&usqp=CAU?text=Salvador" },
+
+          /* Infantil */
+          { id: 30, name: "Canal 10 Mar del Plata", category: "Argentina", 
+            streamUrl: this.encryptUrl("https://g3.mc-hor.transport.edge-access.net/a12/ngrp:canal10mdq-100044_all/canal10mdq-100044_540p.m3u8"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOR7mxdqK7Ooh2wclm8o-ps2d7s4DgvsSuqQ&s?text=Kids TV" },
+
+          { id: 31, name: "Canal 12", category: "Salvador", 
+            streamUrl: this.encryptUrl("https://alba-sv-c12-c12.stream.mediatiquestream.com/original.m3u8"),
+            logo: "https://i.ytimg.com/vi/rexo1xnZCpY/maxresdefault.jpg?text=Boing España" },
+
+          { id: 32, name: "Canal Seis", category: "Salvador", 
+            streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=514"),
+            logo: "https://i.ytimg.com/vi/f_PU6GTSClI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDzFXN-2bDT4gBKEODs_Cndwheyzw?text=Toon en Español" },
+
+          { id: 33, name: "WOW TV", category: "Salvador", 
+            streamUrl: this.encryptUrl("https://cdn.elsalvadordigital.com:1936/wowtv/smil:wowtv.smil/chunklist_w1660410423_b2000000_slen.m3u8"),
+            logo: "https://cigars.roku.com/v1/contain/800x454/https%3A%2F%2Fimage.roku.com%2Fdeveloper_channels%2Fprod%2F81e357d8bce46a50f8dc509841ed5764e975e5ac6eac1112160c8cb13d2b671f.jpg?text=Pitufo tv" }
         ].map(channel => ({
           ...channel,
           streamUrl: this.encryptUrl(channel.url || channel.streamUrl)
