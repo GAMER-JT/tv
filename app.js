@@ -157,6 +157,8 @@ class TVApp {
     };
 
     this.channels.push(newChannel);
+    
+    // Save updated channels to localStorage
     localStorage.setItem('customChannels', JSON.stringify(this.channels));
     
     this.updateCategories();
