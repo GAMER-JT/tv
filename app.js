@@ -1,24 +1,27 @@
 class TVApp {
   constructor() {
+    // Add dev tools protection
     if (window.outerHeight - window.innerHeight > 100 || window.outerWidth - window.innerWidth > 100) {
       document.body.innerHTML = '';
       window.location.href = 'about:blank';
       return;
     }
     
+    // Initialize encryption keys
     this.key = CryptoJS.enc.Utf8.parse('8x/A?D(G+KbPeShV'); 
-    this.iv = CryptoJS.enc.Utf8.parse('kWjXn2r5u8x/A?D('); 
-    
+    this.iv = CryptoJS.enc.Utf8.parse('kWjXn2r5u8x/A?D(');
+
     this.player = null;
     this.channels = [];
     this.favorites = new Set(JSON.parse(localStorage.getItem('favorites') || '[]'));
-    this.currentCategory = 'todos'; 
+    this.currentCategory = 'todos';
     this.darkMode = localStorage.getItem('darkMode') === 'true';
     this.sidebarActive = false;
     this.adminUser = { username: 'jhonny', password: '24591043@' };
     this.isAdmin = false;
     this.deviceInfo = this.getDeviceInfo();
     
+    // Initialize everything else
     this.initializeElements();
     this.initializeAuth();
     this.initializeModals();
@@ -143,71 +146,88 @@ class TVApp {
   }
 
   async loadChannels() {
-    const savedChannels = localStorage.getItem('customChannels');
-    if (savedChannels) {
-      this.channels = JSON.parse(savedChannels);
-      this.channels = this.channels.map(channel => ({
-        ...channel,
-        streamUrl: this.encryptUrl(channel.streamUrl || channel.url)
-      }));
-    } else {
-      this.channels = [
-        /* Ecuador */
-        { id: 1, name: "Ecuavisa", category: "Ecuador", 
-          streamUrl: this.encryptUrl("https://redirector.rudo.video/hls-video/c54ac2799874375c81c1672abb700870537c5223/ecuavisa/ecuavisa.smil/playlist.m3u8"),
-          logo: "https://s1.dmcdn.net/v/SE-U41VbC-4qfDmj_/x1080?text=Ecuador" },
-        { id: 2, name: "Teleamazonas", category: "Ecuador", 
-          streamUrl: this.encryptUrl("https://teleamazonas-live.cdn.vustreams.com/live/fd4ab346-b4e3-4628-abf0-b5a1bc192428/live.isml/fd4ab346-b4e3-4628-abf0-b5a1bc192428.m3u8"),
-          logo: "https://i.ytimg.com/vi/oZFsXMgkpQ0/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gJigTMA8=&rs=AOn4CLC5zSqmBx34uw0TgUSMGTYkXbMFYg?text=Ecuador" },
-        { id: 3, name: "Oromartv", category: "Ecuador", 
-          streamUrl: this.encryptUrl("https://stream.oromar.tv/hls/oromartv_hi/index.m3u8"),
-          logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGp9WHmnHnu2n-iSig7cYO5k_IudfyP25GTqcfxJh19x20lV-H34FcwzBgM_P4khhemQg&usqp=CAU?text=Ecuador" },
+    try {
+      // Try to load channels from localStorage first
+      const savedChannels = localStorage.getItem('customChannels');
+      if (savedChannels) {
+        this.channels = JSON.parse(savedChannels);
+        this.channels = this.channels.map(channel => ({
+          ...channel,
+          streamUrl: this.encryptUrl(channel.streamUrl || channel.url)
+        }));
+      } else {
+        // If no channels in localStorage, load from default channels
+        this.channels = [
+          /* Ecuador */
+          { id: 1, name: "Ecuavisa", category: "Ecuador", 
+            streamUrl: this.encryptUrl("https://redirector.rudo.video/hls-video/c54ac2799874375c81c1672abb700870537c5223/ecuavisa/ecuavisa.smil/playlist.m3u8"),
+            logo: "https://s1.dmcdn.net/v/SE-U41VbC-4qfDmj_/x1080?text=Ecuador" },
+          { id: 2, name: "Teleamazonas", category: "Ecuador", 
+            streamUrl: this.encryptUrl("https://teleamazonas-live.cdn.vustreams.com/live/fd4ab346-b4e3-4628-abf0-b5a1bc192428/live.isml/fd4ab346-b4e3-4628-abf0-b5a1bc192428.m3u8"),
+            logo: "https://i.ytimg.com/vi/oZFsXMgkpQ0/hq720.jpg?sqp=-oaymwE7CK4FEIIDSFryq4qpAy0IARUAAAAAGAElAADIQj0AgKJD8AEB-AH-CYAC0AWKAgwIABABGH8gJigTMA8=&rs=AOn4CLC5zSqmBx34uw0TgUSMGTYkXbMFYg?text=Ecuador" },
+          { id: 3, name: "Oromartv", category: "Ecuador", 
+            streamUrl: this.encryptUrl("https://stream.oromar.tv/hls/oromartv_hi/index.m3u8"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGp9WHmnHnu2n-iSig7cYO5k_IudfyP25GTqcfxJh19x20lV-H34FcwzBgM_P4khhemQg&usqp=CAU?text=Ecuador" },
 
-        /* Peru */
-        { id: 4, name: "Latina", category: "Peru", 
-          streamUrl: this.encryptUrl("https://live-evg1.tv360.bitel.com.pe/bitel/latina/playlist.m3u8"),
-          logo: "https://i.ytimg.com/vi/WvnxTl6rGuE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBvDGf4TyHls6N4PfQkhEs2UIZNzA?text=Peru" },
+          /* Peru */
+          { id: 4, name: "Latina", category: "Peru", 
+            streamUrl: this.encryptUrl("https://live-evg1.tv360.bitel.com.pe/bitel/latina/playlist.m3u8"),
+            logo: "https://i.ytimg.com/vi/WvnxTl6rGuE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBvDGf4TyHls6N4PfQkhEs2UIZNzA?text=Peru" },
 
-        /* Venezuela */
-        { id: 5, name: "Venevision", category: "Venezuela", 
-          streamUrl: this.encryptUrl("https://vod2live.univtec.com/manifest/4c41c0d8-e2e4-43cc-bd43-79afe715e1b3.m3u8"),
-          logo: "https://w2-venevision-com.s3.amazonaws.com/public/media/images/venevision---tu-emocion---2023-1-0049d8.jpg?text=Venevision" },
+          /* Venezuela */
+          { id: 5, name: "Venevision", category: "Venezuela", 
+            streamUrl: this.encryptUrl("https://vod2live.univtec.com/manifest/4c41c0d8-e2e4-43cc-bd43-79afe715e1b3.m3u8"),
+            logo: "https://w2-venevision-com.s3.amazonaws.com/public/media/images/venevision---tu-emocion---2023-1-0049d8.jpg?text=Venevision" },
 
-        /* Noticias */
-        { id: 6, name: "Euro New", category: "Noticias", 
-          streamUrl: this.encryptUrl("https://39997b2f529e4793961899e546833a75.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/Samsung-es_EuroNewsLive/playlist.m3u8"),
-          logo: "https://static.euronews.com/articles/stories/07/27/17/48/1200x675_cmsv2_32fdf993-ef22-54d9-809e-ccb2076429b4-7271748.jpg?text=Noticias" },
-        { id: 7, name: "24h", category: "Noticias", 
-          streamUrl: this.encryptUrl("https://ztnr.rtve.es/ztnr/1694255.m3u8"),
-          logo: "https://www.24horas.cl/24horas/site/artic/20240103/imag/foto_0000000920240103074415.png?text=Noticias" },
-        { id: 8, name: "DW", category: "Noticias", 
-          streamUrl: this.encryptUrl("https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8"),
-          logo: "https://static.dw.com/image/69105274_605.webp?text=Noticias" },
+          /* Noticias */
+          { id: 6, name: "Euro New", category: "Noticias", 
+            streamUrl: this.encryptUrl("https://39997b2f529e4793961899e546833a75.mediatailor.us-east-1.amazonaws.com/v1/master/44f73ba4d03e9607dcd9bebdcb8494d86964f1d8/Samsung-es_EuroNewsLive/playlist.m3u8"),
+            logo: "https://static.euronews.com/articles/stories/07/27/17/48/1200x675_cmsv2_32fdf993-ef22-54d9-809e-ccb2076429b4-7271748.jpg?text=Noticias" },
+          { id: 7, name: "24h", category: "Noticias", 
+            streamUrl: this.encryptUrl("https://ztnr.rtve.es/ztnr/1694255.m3u8"),
+            logo: "https://www.24horas.cl/24horas/site/artic/20240103/imag/foto_0000000920240103074415.png?text=Noticias" },
+          { id: 8, name: "DW", category: "Noticias", 
+            streamUrl: this.encryptUrl("https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8"),
+            logo: "https://static.dw.com/image/69105274_605.webp?text=Noticias" },
 
-        /* Salvador */
-        { id: 9, name: "Megavision", category: "Salvador", 
-          streamUrl: this.encryptUrl("https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8"),
-          logo: "https://megavision.univtec.com/_next/image?url=https%3A%2F%2Fkki5auiqw9.execute-api.us-east-1.amazonaws.com%2Fstg%2Fresize%3Furl%3Dhttps%3A%2F%2Ffrankly-vod.akamaized.net%2Fmegavision%2Fuploaded%2F754bd760-78d6-48db-90ad-88b97e502ed8.jpeg&w=3840&q=90?text=Salvador" },
+          /* Salvador */
+          { id: 9, name: "Megavision", category: "Salvador", 
+            streamUrl: this.encryptUrl("https://vcp.myplaytv.com/moviefe/moviefe/playlist.m3u8"),
+            logo: "https://megavision.univtec.com/_next/image?url=https%3A%2F%2Fkki5auiqw9.execute-api.us-east-1.amazonaws.com%2Fstg%2Fresize%3Furl%3Dhttps%3A%2F%2Ffrankly-vod.akamaized.net%2Fmegavision%2Fuploaded%2F754bd760-78d6-48db-90ad-88b97e502ed8.jpeg&w=3840&q=90?text=Salvador" },
 
-        /* Infantil */
-        { id: 30, name: "Kids TV", category: "Infantil", 
-          streamUrl: this.encryptUrl("https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/kids-tv-et/master.m3u8"),
-          logo: "https://m.media-amazon.com/images/I/61ujeaPoYiL.png?text=Kids TV" },
-        { id: 31, name: "Boing España", category: "Infantil", 
-          streamUrl: this.encryptUrl("https://spa-ha-p002.cdn.masmediatv.es/SVoriginOperatorEdge/smil:17_HD.smil/index.m3u8"),
-          logo: "https://i.ytimg.com/vi/_4Nzy5rjM0A/maxresdefault.jpg?text=Boing España" },
-        { id: 32, name: "Toon en Español", category: "Infantil", 
-          streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=514"),
-          logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLUl7LYl757mci89pjoose7C2Yq-Jnuwok-g&s?text=Toon en Español" },
-        { id: 33, name: "Pitufo tv", category: "Infantil", 
-          streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=4211"),
-          logo: "https://img.static-ottera.com/prod/tg/linear_channel/thumbnails/widescreen/k0UC6i-MUyyL25pRw2uuulUiBw1AluUVJQhZ65VxwjA.jpg?text=Pitufo tv" }
-      ];
-      this.saveChannels();
+          /* Infantil */
+          { id: 30, name: "Kids TV", category: "Infantil", 
+            streamUrl: this.encryptUrl("https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/kids-tv-et/master.m3u8"),
+            logo: "https://m.media-amazon.com/images/I/61ujeaPoYiL.png?text=Kids TV" },
+          { id: 31, name: "Boing España", category: "Infantil", 
+            streamUrl: this.encryptUrl("https://spa-ha-p002.cdn.masmediatv.es/SVoriginOperatorEdge/smil:17_HD.smil/index.m3u8"),
+            logo: "https://i.ytimg.com/vi/_4Nzy5rjM0A/maxresdefault.jpg?text=Boing España" },
+          { id: 32, name: "Toon en Español", category: "Infantil", 
+            streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=514"),
+            logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLUl7LYl757mci89pjoose7C2Yq-Jnuwok-g&s?text=Toon en Español" },
+          { id: 33, name: "Pitufo tv", category: "Infantil", 
+            streamUrl: this.encryptUrl("https://stream.ads.ottera.tv/playlist.m3u8?network_id=4211"),
+            logo: "https://img.static-ottera.com/prod/tg/linear_channel/thumbnails/widescreen/k0UC6i-MUyyL25pRw2uuulUiBw1AluUVJQhZ65VxwjA.jpg?text=Pitufo tv" }
+        ].map(channel => ({
+          ...channel,
+          streamUrl: this.encryptUrl(channel.url || channel.streamUrl)
+        }));
+        this.saveChannels(); // Save default channels to localStorage
+      }
+
+      this.updateCategories();
+      this.renderChannels();
+    } catch (error) {
+      console.error('Error loading channels:', error);
     }
+  }
 
-    this.updateCategories();
-    this.renderChannels();
+  saveChannels() {
+    try {
+      localStorage.setItem('customChannels', JSON.stringify(this.channels));
+    } catch (error) {
+      console.error('Error saving channels:', error);
+    }
   }
 
   addNewChannel() {
@@ -231,10 +251,6 @@ class TVApp {
     this.renderChannels();
     this.addChannelModal.style.display = 'none';
     document.getElementById('addChannelForm').reset();
-  }
-
-  saveChannels() {
-    localStorage.setItem('customChannels', JSON.stringify(this.channels));
   }
 
   updateCategories() {
@@ -398,7 +414,6 @@ class TVApp {
     });
     return decrypted.toString(CryptoJS.enc.Utf8);
   }
-
 }
 
 document.addEventListener('DOMContentLoaded', () => {
